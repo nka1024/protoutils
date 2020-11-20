@@ -2,7 +2,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-public static class BabyUtils {
+public class ProtoUtils {
 
 	/// Vectors & angles
 
@@ -30,9 +30,11 @@ public static class BabyUtils {
 
 	/// Arrays
 
-	public static T[] arrayRandomize<T>(T[] array) {
+	public static T[] arrayRandomize<T>(T[] array, System.Random rnd = null) {
 		if (array == null)return null;
-		System.Random rnd = new System.Random();
+		if (rnd == null) {
+			rnd = new System.Random();
+		}
 		return array.OrderBy(x => rnd.Next()).ToArray();
 	}
 
@@ -63,26 +65,38 @@ public static class BabyUtils {
 
 	/// Camera 
 
-	public static Vector2 sizeToFit(Texture2D texture, float pixelsPerUnit) {
-		return sizeToFit(new Vector2(texture.width / pixelsPerUnit, texture.height / pixelsPerUnit));
+	public static Vector2 sizeToFitCamera(Texture2D texture, float pixelsPerUnit) {
+		return sizeToFitCamera(new Vector2(texture.width / pixelsPerUnit, texture.height / pixelsPerUnit));
 	}
 
-	public static Vector2 sizeToFit(SpriteRenderer spriteRenderer) {
-		return sizeToFit(spriteRenderer.sprite.bounds.size);
+	public static Vector2 sizeToFitCamera(SpriteRenderer spriteRenderer) {
+		return sizeToFitCamera(spriteRenderer.sprite.bounds.size);
 	}
 
-	public static Vector2 sizeToFit(Vector2 spriteSize) {
+	public static Vector2 sizeToFitCamera(Vector2 spriteSize) {
 		float cameraHeight = Camera.main.orthographicSize * 2;
 		Vector2 cameraSize = new Vector2(Camera.main.aspect * cameraHeight, cameraHeight);
+		Rect cameraRect = new Rect(0, 0, cameraSize.x, cameraSize.y);
+		return sizeToFitRect(spriteSize, cameraRect);
+	}
 
+	public static Vector2 sizeToFitRect(Texture2D texture, float pixelsPerUnit, Rect rect) {
+		return sizeToFitRect(new Vector2(texture.width / pixelsPerUnit, texture.height / pixelsPerUnit), rect);
+	}
+
+	public static Vector2 sizeToFitRect(SpriteRenderer spriteRenderer, Rect rect) {
+		return sizeToFitRect(spriteRenderer.sprite.bounds.size, rect);
+	}
+
+	public static Vector2 sizeToFitRect(Vector2 spriteSize, Rect rect) {
 		Vector2 scale = Vector3.one;
-		float screenAspect = cameraSize.x / cameraSize.y;
+		float screenAspect = rect.size.x / rect.size.y;
 		float rectAspect = spriteSize.x / spriteSize.y;
 
 		if (screenAspect < rectAspect)
-			scale *= cameraSize.y / spriteSize.y;
+			scale *= rect.size.y / spriteSize.y;
 		else
-			scale *= cameraSize.x / spriteSize.x;
+			scale *= rect.size.x / spriteSize.x;
 
 		return scale;
 	}
@@ -125,9 +139,9 @@ public static class BabyUtils {
 	}
 
 	/// Misc
-	public static bool randomBool() {
+	public static bool randomBool { get {
 		return Random.Range(0f, 1f) < 0.5f;
-	}
+	}}
 
 	public static bool chance(float rate) {
 		return Random.Range(0f, 1f) < rate;
