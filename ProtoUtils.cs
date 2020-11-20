@@ -2,7 +2,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-public class ProtoUtils {
+public static class ProtoUtils {
 
 	/// Vectors & angles
 
