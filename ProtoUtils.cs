@@ -56,6 +56,11 @@ public static class ProtoUtils {
 
 	public static Color colorByHex(int hex, float alpha = 1.0f) {
 		string colorcode = hex.ToString("X2");
+		if (colorcode.Length < 6) {
+			for (int i = colorcode.Length; i < 6; i++) {
+				colorcode = "0" + colorcode;
+			}
+		}
 		float r = int.Parse(colorcode.Substring(0, 2), System.Globalization.NumberStyles.HexNumber) / 255f;
 		float g = int.Parse(colorcode.Substring(2, 2), System.Globalization.NumberStyles.HexNumber) / 255f;
 		float b = int.Parse(colorcode.Substring(4, 2), System.Globalization.NumberStyles.HexNumber) / 255f;
