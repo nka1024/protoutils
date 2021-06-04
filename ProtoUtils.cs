@@ -68,6 +68,17 @@ public static class ProtoUtils {
 		return new Color(r, g, b, alpha);
 	}
 
+	public static void setAlpha(SpriteRenderer spriteRenderer, float alpha) {
+		Color c = spriteRenderer.material.GetColor("_Color");
+		c.a = alpha;
+		spriteRenderer.material.SetColor("_Color", c);
+	}
+
+	public static float getAlpha(SpriteRenderer spriteRenderer) {
+		Color c = spriteRenderer.material.GetColor("_Color");
+		return c.a;
+	}
+
 	/// Camera 
 
 	public static Vector2 sizeToFitCamera(Texture2D texture, float pixelsPerUnit) {
