@@ -52,6 +52,12 @@ public static class ProtoUtils {
 		return array[Random.Range(0, array.Length)];
 	}
 
+	public static bool isTabletResolution {
+		get {
+			return screenBoundsUnits.width / screenBoundsUnits.height <= 1.4f;
+		}
+	}
+
 	/// Colors
 
 	public static Color colorByHex(int hex, float alpha = 1.0f) {
