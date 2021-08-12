@@ -85,6 +85,16 @@ public static class ProtoUtils {
 		return c.a;
 	}
 
+	public static void setColor(SpriteRenderer spriteRenderer, Color color) {
+		Color c = spriteRenderer.material.GetColor("_Color");
+		color.a = c.a;
+		spriteRenderer.material.SetColor("_Color", color);
+	}
+
+	public static Color getColor(SpriteRenderer spriteRenderer) {
+		return spriteRenderer.material.GetColor("_Color");
+	}
+
 	/// Camera 
 
 	public static Vector2 sizeToFitCamera(Texture2D texture, float pixelsPerUnit) {
@@ -161,8 +171,9 @@ public static class ProtoUtils {
 	}
 
 	/// Misc
-	public static bool randomBool { get {
-		return Random.Range(0f, 1f) < 0.5f;
+	public static bool randomBool {
+		get {
+			return Random.Range(0f, 1f) < 0.5f;
 	}}
 
 	public static bool chance(float rate) {
