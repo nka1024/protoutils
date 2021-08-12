@@ -168,4 +168,22 @@ public static class ProtoUtils {
 	public static bool chance(float rate) {
 		return Random.Range(0f, 1f) < rate;
 	}
+
+	// WARNING: not working as intended, point is off
+	public static Vector2 nearestPointOnLine(Vector2 lineStart, Vector2 lineEnd, Vector2 point) {
+		//Get heading
+		Vector2 heading = (lineEnd - lineStart);
+		float magnitudeMax = heading.magnitude;
+		heading.Normalize();
+
+		//Do projection from the point but clamp it
+		Vector2 lhs = point - lineStart;
+		float dotP = Vector2.Dot(lhs, heading);
+		dotP = Mathf.Clamp(dotP, 0f, magnitudeMax);
+		return lineStart + heading * dotP;
+	}
+
+	public static float mod(float a, float n) {
+		return (a % n + n) % n;
+	}
 }
