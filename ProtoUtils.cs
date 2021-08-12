@@ -28,6 +28,26 @@ public static class ProtoUtils {
 		return angle;
 	}
 
+	public static float angleDiff(float angle1, float angle2) {
+		float a = angle1 - angle2;
+		return ProtoUtils.mod(a + 180, 360) - 180;
+	}
+
+	public static float normalizeAngle(float angle) {
+		angle = angle % 360;
+		if (angle < 0) {
+			angle += 360;
+		}
+		return angle;
+	}
+
+	public static Vector3 radialPosition(float angle, float radius) {
+		Vector3 delta = Vector2.zero;
+		delta.x = -radius * Mathf.Sin(Mathf.Deg2Rad * angle);
+		delta.y = radius * Mathf.Cos(Mathf.Deg2Rad * angle);
+		return delta;
+	}
+
 	/// Arrays
 
 	public static T[] arrayRandomize<T>(T[] array, System.Random rnd = null) {
@@ -54,7 +74,7 @@ public static class ProtoUtils {
 
 	public static bool isTabletResolution {
 		get {
-			return screenBoundsUnits.width / screenBoundsUnits.height <= 1.4f;
+			return screenBoundsUnits.width / screenBoundsUnits.height <= 1.5f;
 		}
 	}
 
@@ -174,7 +194,8 @@ public static class ProtoUtils {
 	public static bool randomBool {
 		get {
 			return Random.Range(0f, 1f) < 0.5f;
-	}}
+		}
+	}
 
 	public static bool chance(float rate) {
 		return Random.Range(0f, 1f) < rate;
